@@ -4,7 +4,7 @@ The song Still Alive from Portal has sets of lyrics that are mostly standalone. 
 
 There are a couple options. It can choose the lyrics (clips) completely randomly which can have a bit more jarring of a transition or it can try to keep similar tempos together to make it smoother.
 
-There is a web version and a python/ffmpeg version that can be done locally. The web version can be viewed at https://bobjrsenior.com/etc/still-alive.
+There is a web version and a python/ffmpeg version that can be done locally. The web version can be viewed at https://bobjrsenior.com/etc/still-alive-forever.
 
 Even though the song is [free on Steam](https://store.steampowered.com/app/323170/Portal_Soundtrack/), I want to avoid copyright issues and didn't include the lyric clips here. It is straightforward to generate them though.
 

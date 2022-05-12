@@ -1,0 +1,6 @@
+# Copyrighted song clips
+*.mp3
+*.flac
+
+# Generated ffmpeg filelist
+filelist-generated

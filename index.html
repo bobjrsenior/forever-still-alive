@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+</head>
+<script>
+let extension = ".mp3"
+let clips = [
+    "Still-Alive-01",
+    "Still-Alive-02",
+    "Still-Alive-03",
+    "Still-Alive-04",
+    "Still-Alive-05",
+    "Still-Alive-06",
+    "Still-Alive-07",
+    "Still-Alive-08",
+    "Still-Alive-09",
+    "Still-Alive-10",
+    "Still-Alive-11",
+    "Still-Alive-12",
+    "Still-Alive-13",
+    "Still-Alive-14",
+    "Still-Alive-15",
+    "Still-Alive-16",
+    "Still-Alive-17",
+    "Still-Alive-18",
+    "Still-Alive-19",
+    "Still-Alive-20",
+    "Still-Alive-21",
+    "Still-Alive-22",
+    "Still-Alive-23",
+    "Still-Alive-24",
+    "Still-Alive-25",
+    "Still-Alive-26",
+    "Still-Alive-27",
+    "Still-Alive-28",
+    "Still-Alive-29",
+    "Still-Alive-30",
+    "Still-Alive-31",
+    "Still-Alive-32",
+    "Still-Alive-33",
+    "Still-Alive-34",
+    "Still-Alive-35",
+    "Still-Alive-36",
+    "Still-Alive-37",
+    "Still-Alive-38"
+];
+
+let clipsGrouped = [
+    [   //0 intro
+        "Still-Alive-01",
+        "Still-Alive-02",
+        "Still-Alive-03",
+        "Still-Alive-04",
+        "Still-Alive-05",//intro (with extra beat)
+        "Still-Alive-06"
+    ],
+    [   //1 intro (tempo change)
+        "Still-Alive-07",
+        "Still-Alive-08",
+        "Still-Alive-09",
+        "Still-Alive-10"
+    ],
+    [   // 2
+        "Still-Alive-11",
+        "Still-Alive-12",
+        "Still-Alive-13",
+        "Still-Alive-14",
+        "Still-Alive-15",
+        "Still-Alive-16"
+    ],
+    [   // 3
+        "Still-Alive-17",
+        "Still-Alive-18",
+        "Still-Alive-19",
+        "Still-Alive-20",
+        "Still-Alive-21",
+    ],
+    [   // 4
+        "Still-Alive-22",
+        "Still-Alive-23",
+        "Still-Alive-24",
+    ],
+    [   // 5
+        "Still-Alive-25",
+        "Still-Alive-26",
+        "Still-Alive-27"
+    ],
+    [   // 6
+        "Still-Alive-28",
+        "Still-Alive-29",
+        "Still-Alive-30",
+        "Still-Alive-31",
+        "Still-Alive-32",
+        "Still-Alive-33",
+        "Still-Alive-34",
+        "Still-Alive-35",
+        "Still-Alive-36",
+        "Still-Alive-37",
+        "Still-Alive-38"
+    ]
+];
+let groupTransitions = {
+    0: [1, 4],
+    1: [2, 5],
+    2: [3, 5, 6],
+    3: [4, 0],
+    4: [5, 3],
+    5: [6, 2, 3],
+    6: [0]
+};
+let musicPlayer = null;
+let playingGrouped = false;
+let clipId = 0;
+let groupId = 0;
+
+function nextClip()
+{
+    let prevClipId = clipId;
+    // If not playing clips grouped togethre, pick any random one
+    if (!playingGrouped)
+    {
+        do
+        {
+            clipId = Math.floor(Math.random() * clips.length);
+        } while (clipId === prevClipId);
+        musicPlayer.src = "clips/" + clips[clipId] + extension;
+    }
+    else
+    {
+        let groupChanged = false;
+
+        // If we are playing the last clip in a group, transition to another group
+        if (clipId == clipsGrouped[groupId].length - 1)
+        {
+            groupChanged = true;
+            groupId = groupTransitions[groupId][Math.floor(Math.random() * groupTransitions[groupId].length)];
+        }
+        do
+        {
+            clipId = Math.floor(Math.random() * clipsGrouped[groupId].length);
+        } while (!groupChanged && clipId === prevClipId);
+
+        musicPlayer.src = "clips/" + clipsGrouped[groupId][clipId] + extension;
+    }
+
+    musicPlayer.play();
+}
+function init()
+{
+    if (musicPlayer === null)
+    {
+        musicPlayer = new Audio();
+        musicPlayer.addEventListener("ended", () => {
+            nextClip();
+        });
+    }
+    nextClip();
+}
+// Completely random clips
+function initUngrouped()
+{
+    playingGrouped = false;
+    init();
+}
+// Groups similar clips together to make transitions a bit less jarring
+function initGrouped()
+{
+    playingGrouped = true;
+    init();
+}
+</script>
+</head>
+<body>
+<button onClick="init()">Start</Button>
+<button onClick="initGrouped()">Start (Group by similar beat)</Button>
+</body>
+</html>
